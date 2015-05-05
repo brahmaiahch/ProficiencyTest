@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 
 namespace ProficiencyTest
 {
@@ -16,23 +17,30 @@ namespace ProficiencyTest
 	}
 	public class BinarySearchTree
 	{
+		private static int previous= 1;
+		private static bool istrue= false;
 		public static bool IsValidBST(Node root)
 		{
-			//checking node left and right are not equal of null, root value should be less than equal to root left and root value should be greater than equal to root right
-			//if checked condition is true then root is valid binary search tree
-			if( (Node)root.Left!=null && (Node) root.Right!=null && root.Value >=((Node)root.Left).Value && root.Value <=( (Node) root.Right).Value) {
-				return true;
-			} else {
-				return false;
-			}
+
+			return validate (root, int.MinValue, int.MaxValue);
 		}
-//		public static void Main(string[] args)
-//		{
-//			Node n1 = new Node(1, null, null);
-//			Node n3 = new Node(3, null, null);
-//			Node n2 = new Node(2, n1, n3);
-//			Console.WriteLine(IsValidBST(n2));
-//		}
+		public static bool validate(Node root, int min, int max) {
+			if (root == null) {
+				return true;
+			}
+
+			// not in range
+			if (root.Value < min || root.Value > max) {
+				return false;
+			} 
+
+			// left subtree must be < root.val && right subtree must be > root.val
+			return validate(root.Left, min, root.Value) && validate(root.Right, root.Value, max);
+		}
+
+
+	
 	}
+
 }
 
