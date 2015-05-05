@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text.RegularExpressions;
 
 namespace ProficiencyTest
@@ -18,7 +18,7 @@ namespace ProficiencyTest
 		public Path Cd(string newPath)
 		{
 			//check for string contains  a-z, A-Z and /(slash) , ../ or ./
-			if (isValid (CurrentPath) && (newPath.Contains ("../") || newPath.Contains ("./"))) {
+			if (isValid (CurrentPath)) {
 				//take example /a/b/c/d
 				//splitting filepath using /(slace)
 				// will get in array "", a, b, c, d
@@ -26,22 +26,30 @@ namespace ProficiencyTest
 				//take example ../../../x
 				//splitting newpath using /(slace)
 				//will get in array .., .., .., x
-				string[] newPaths = newPath.Split ('/');
-				//will get how many occurences of ../ or ./ 
-				int count = CountStringOccurrences (newPath, "../");
-				if (count == 0) {
-					count = CountStringOccurrences (newPath, "./");
+				if (newPath.IndexOf ("../") > -1 || newPath.IndexOf ("./") > -1) {
+					string[] newPaths = newPath.Split ('/');
+					//will get how many occurences of ../ or ./ 
+					int count = CountStringOccurrences (newPath, "../");
+					if (count == 0) {
+						count = CountStringOccurrences (newPath, "./");
+					}
+					//forming new changed directory using 	
+					string strPath = "";
+					for (int i = 0; i < directories.Length - count; i++) {
+						strPath = strPath + "/" + directories [i];
+					}
+					//removing extra slace in starting position
+					strPath = strPath.TrimStart ('/');
+					//concatinating strpath and newdirectiory
+					strPath = strPath + "/" + newPaths [newPaths.Length - 1];
+					CurrentPath = strPath;
 				}
-				//forming new changed directory using 	
-				string strPath = "";
-				for (int i = 0; i < directories.Length - count; i++) {
-					strPath = strPath + "/" + directories [i];
-				}
-				//removing extra slace in starting position
-				strPath = strPath.TrimStart ('/');
-				//concatinating strpath and newdirectiory
-				strPath = strPath + "/" + newPaths [newPaths.Length - 1];
-				CurrentPath = strPath;
+				else if(newPath.IndexOf(".."){
+					
+					for (int i = 0; i < directories.Length - 1; i++) {
+						strPath = strPath + "/" + directories [i];
+					}
+					}
 			} else {
 				Console.WriteLine("Path and newpath are not valid");
 			}
