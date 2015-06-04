@@ -7,33 +7,25 @@ namespace ProficiencyTest
 {
 	public class Run
 	{
-
-		public static int IndexOfLongestRun(string str)
-		{
-
-			int indexOfLongest = 0,
-			lengthOfLongest = 1,
-			indexOfCurrent = 0,
-			lengthOfCurrent = 1;
-			char currentChar = str [0];
-			for (int i = 1; i < str.Length; i++) {
-				if (str [i] == currentChar) {
-					lengthOfCurrent++;
-				} else {
-					if (lengthOfCurrent > lengthOfLongest) {
-						lengthOfLongest	= lengthOfCurrent;
-						indexOfLongest = indexOfCurrent;
-					}
-					lengthOfCurrent = 1;
-					indexOfCurrent = i;
-					currentChar = str [i];
-				}
-			}
-
-			if (lengthOfCurrent > lengthOfLongest)
-				indexOfLongest = indexOfCurrent;
-
-			return indexOfLongest;
-		}
-	}}
+                	public static int IndexOfLongestRun(string str)
+{
+//Matching the string with a regular expression to get a collection of strings of a particular pattern
+MatchCollection mc = Regex.Matches(str, "(?i)(?:([a-z])\\1{1,})");
+int maxLength = 0;
+int index = -1;
+foreach (Match m in mc)
+{
+//Finds the longest string within the collection and getting the index of its first character
+if (m.Length > maxLength)
+{
+maxLength = m.Length;
+index = m.Index;
+}
+}
+return index;
+} 
+		
+	}
+	
+}
 
